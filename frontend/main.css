@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: url('background.png');
+    color: #000000;
+}
+
+.sliders {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.wrapper {
+    background: white;
+    width: 75%;
+    margin: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}

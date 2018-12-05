@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Luke's Automated Jumper!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Luke's Automated Christmas Jumper!</h1>
+        <form class="jumper-form">
+            <p>Light mode:</p>
+            <div>
+                <input type="radio" id="off" name="state" value="OFF" class="state" checked>
+                <label for="off">Off</label>
+            </div>
+
+            <div>
+                <input type="radio" id="on" name="state" value="ON" class="state">
+                <label for="on">On</label>
+            </div>
+
+            <div>
+                <input type="radio" id="flash" name="state" value="FLASH" class="state">
+                <label for="flash">Flash</label>
+            </div>
+
+            <div>
+                <input type="radio" id="fade" name="state" value="FADE" class="state">
+                <label for="fade">Fade</label>
+            </div>
+
+            <div class="sliders">
+                <div>
+                    <label for="onPause">Pause while on for: </label>
+                    <input type="range" min="200" max="2000" step="100" name="onPause" value="200" class="onPause" />
+                    <span class="onPauseText">0.5 seconds</span>
+                </div>
+
+                <div>
+                    <label for="offPause">Pause while off for: </label>
+                    <input type="range" min="200" max="2000" step="100" name="offPause" value="200" class="offPause" />
+                    <span class="offPauseText">0.5 seconds</span>
+                </div>
+            </div>
+
+            <input type="submit" value="Send!">
+        </form>
+    </div>
+    <script src="mqtt.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
