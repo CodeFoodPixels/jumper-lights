@@ -1,7 +1,27 @@
+html, body {
+    height: 100%;
+}
+
+div {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     background: url('background.png');
-    color: #000000;
+    color: #ffffff;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+h1 {
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .sliders {
@@ -13,9 +33,36 @@ body {
 }
 
 .wrapper {
-    background: white;
+    background: #930000;;
     width: 75%;
-    margin: auto;
-    padding: 10px;
+    min-width: 280px;
+    padding: 20px;
     box-sizing: border-box;
+    margin: 20px 0;
+    border: 3px solid #ffffff;
+}
+
+.submit {
+    width: 200px;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 5px;
+    color: #930000;
+    border: none;
+    background: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.onPause, .offPause {
+    width: 200px;
+}
+
+.onPauseText, .offPauseText {
+    display: inline-block;
 }

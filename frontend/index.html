@@ -12,41 +12,43 @@
         <h1>Luke's Automated Christmas Jumper!</h1>
         <form class="jumper-form">
             <p>Light mode:</p>
-            <div>
-                <input type="radio" id="off" name="state" value="OFF" class="state" checked>
-                <label for="off">Off</label>
-            </div>
+            <div class="input-group">
+                <div>
+                    <input type="radio" id="off" name="state" value="OFF" class="state" checked>
+                    <label for="off">Off</label>
+                </div>
 
-            <div>
-                <input type="radio" id="on" name="state" value="ON" class="state">
-                <label for="on">On</label>
-            </div>
+                <div>
+                    <input type="radio" id="on" name="state" value="ON" class="state">
+                    <label for="on">On</label>
+                </div>
 
-            <div>
-                <input type="radio" id="flash" name="state" value="FLASH" class="state">
-                <label for="flash">Flash</label>
-            </div>
+                <div>
+                    <input type="radio" id="flash" name="state" value="FLASH" class="state">
+                    <label for="flash">Flash</label>
+                </div>
 
-            <div>
-                <input type="radio" id="fade" name="state" value="FADE" class="state">
-                <label for="fade">Fade</label>
+                <div>
+                    <input type="radio" id="fade" name="state" value="FADE" class="state">
+                    <label for="fade">Fade</label>
+                </div>
             </div>
 
             <div class="sliders">
-                <div>
-                    <label for="onPause">Pause while on for: </label>
-                    <input type="range" min="200" max="2000" step="100" name="onPause" value="200" class="onPause" />
-                    <span class="onPauseText">0.5 seconds</span>
+                <div class="input-group">
+                    <label for="onPause">Pause while on for: </label><br />
+                    <input type="range" min="200" max="2000" step="100" name="onPause" value="1000" class="onPause" />
+                    <span class="onPauseText">1 second</span>
                 </div>
 
-                <div>
-                    <label for="offPause">Pause while off for: </label>
-                    <input type="range" min="200" max="2000" step="100" name="offPause" value="200" class="offPause" />
-                    <span class="offPauseText">0.5 seconds</span>
+                <div class="input-group">
+                    <label for="offPause">Pause while off for: </label><br />
+                    <input type="range" min="200" max="2000" step="100" name="offPause" value="1000" class="offPause" />
+                    <span class="offPauseText">1 second</span>
                 </div>
             </div>
 
-            <input type="submit" value="Send!">
+            <button type="submit" class="submit">Send!</button>
         </form>
     </div>
     <script src="mqtt.min.js"></script>
