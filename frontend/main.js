@@ -1,7 +1,28 @@
 const mqttClient = mqtt.connect('mqtt://broker.shiftr.io', {
     username: '820af9fd',
-    password: '91c05e312820712f'
+    password: '91c05e312820712f',
+    connectTimeout: 10000,
+    keepalive: 10
 });
+
+mqttClient.on('connect', () => {
+    const status = document.querySelector('.connection-status');
+
+    status.classList.add('connected');
+    status.innerHTML = "You are connected";
+});
+
+const noConnection = () => {
+    const status = document.querySelector('.connection-status');
+    status.classList.remove('connected');
+    status.innerHTML = "You are disconnected";
+};
+
+mqttClient.on('close', noConnection)
+
+mqttClient.on('offline', noConnection);
+
+mqttClient.on('error', noConnection);
 
 document.querySelector('.onPause').addEventListener('input', function() {
     document.querySelector('.onPauseText').innerHTML = `${this.value/1000} seconds`;

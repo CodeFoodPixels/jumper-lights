@@ -46,12 +46,15 @@ h1 {
     width: 200px;
     height: 50px;
     font-size: 30px;
-    border-radius: 5px;
     color: #930000;
     border: none;
     background: #ffffff;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+}
+
+.submit:active {
+    background: #cccccc;
 }
 
 .input-group {
@@ -65,4 +68,19 @@ h1 {
 
 .onPauseText, .offPauseText {
     display: inline-block;
+}
+
+.connection-status:before {
+    content: " ";
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    background: #ff0000;
+    border: 2px solid #ffffff;
+    margin-right: 5px;
+}
+
+.connection-status.connected:before {
+    background: #00ff00;
 }
