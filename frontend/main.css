@@ -70,7 +70,7 @@ h1 {
     display: inline-block;
 }
 
-.connection-status:before {
+.connection-status:before, .jumper-status:before {
     content: " ";
     width: 20px;
     height: 20px;
@@ -81,6 +81,6 @@ h1 {
     margin-right: 5px;
 }
 
-.connection-status.connected:before {
+.connection-status.connected:before, .jumper-status.connected:before {
     background: #00ff00;
 }

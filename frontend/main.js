@@ -1,4 +1,4 @@
-const mqttClient = mqtt.connect('mqtt://broker.shiftr.io', {
+const mqttClient = mqtt.connect('mqtts://broker.shiftr.io', {
     username: '820af9fd',
     password: '91c05e312820712f',
     connectTimeout: 10000,
@@ -10,7 +10,26 @@ mqttClient.on('connect', () => {
 
     status.classList.add('connected');
     status.innerHTML = "You are connected";
+
+    mqttClient.subscribe('ping');
 });
+
+let pingTimeout;
+
+mqttClient.on('message', (topic, message) => {
+    if (topic === 'ping') {
+        const status = document.querySelector('.jumper-status');
+
+        clearTimeout(pingTimeout);
+        pingTimeout = setTimeout(() => {
+            status.classList.remove('connected');
+            status.innerHTML = "The jumper is offline";
+        }, 15000);
+
+        status.classList.add('connected');
+        status.innerHTML = "The jumper is online";
+    }
+})
 
 const noConnection = () => {
     const status = document.querySelector('.connection-status');
