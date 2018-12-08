@@ -59,7 +59,12 @@ const mqtt = require('MQTT').create(config.mqtt.broker, {
 });
 
 mqtt.on('connected', function () {
+  console.log('Connected to MQTT');
+
   mqtt.subscribe('status');
+  setInterval(() => {
+    mqtt.publish('ping', 'ping');
+  }, 10000);
 });
 
 mqtt.on('publish', function (pub) {
@@ -71,15 +76,31 @@ mqtt.on('publish', function (pub) {
       });
     } catch (e) {}
   }
+});
 
+mqtt.on('disconnected', function () {
+  console.log('MQTT disconnected, retrying');
+  setTimeout(function () {
+    mqtt.connect();
+  }, 2500);
 });
 
 const wifi = require('Wifi');
+
 wifi.connect(config.wifi.ssid, {
   password: config.wifi.key
-}, function (err) {
+});
+
+wifi.on('connected', () => {
+  console.log('Connected to wifi');
   mqtt.connect();
 });
+
+wifi.on('disconnected', () => {
+  console.log('Wifi disconnected, rebooting');
+  E.reboot();
+});
+
 wifi.stopAP();
 
 let ledInterval;
