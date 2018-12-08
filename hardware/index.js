@@ -64,7 +64,7 @@ mqtt.on('connected', function () {
   mqtt.subscribe('status');
   setInterval(() => {
     mqtt.publish('ping', 'ping');
-  }, 10000);
+  }, 5000);
 });
 
 mqtt.on('publish', function (pub) {

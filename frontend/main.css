@@ -57,9 +57,12 @@ h1 {
     background: #cccccc;
 }
 
+.submit:disabled {
+    background: #C37171;
+}
+
 .input-group {
     margin-bottom: 20px;
-    border-radius: 5px;
 }
 
 .onPause, .offPause {
@@ -68,6 +71,11 @@ h1 {
 
 .onPauseText, .offPauseText {
     display: inline-block;
+}
+
+.connection-status,
+.jumper-status {
+    margin-bottom: 20px;
 }
 
 .connection-status:before, .jumper-status:before {
@@ -83,4 +91,8 @@ h1 {
 
 .connection-status.connected:before, .jumper-status.connected:before {
     background: #00ff00;
+}
+
+.message {
+    margin-top: 20px;
 }

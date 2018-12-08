@@ -11,8 +11,10 @@
     <div class="wrapper">
         <h1>Luke's Automated Christmas Jumper!</h1>
         <p>Pick a light mode, change any settings and hit send!</p>
-        <span class="connection-status">You are disconnected</span>
-        <span class="jumper-status">The jumper is offline</span>
+
+        <div class="connection-status">You are disconnected</div>
+        <div class="jumper-status">The jumper is offline</div>
+
         <form class="jumper-form">
             <p>Light mode:</p>
             <div class="input-group">
@@ -51,7 +53,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="submit">Send!</button>
+            <button type="submit" class="submit" disabled>Send!</button>
+            <div class="message">&nbsp;</div>
         </form>
     </div>
     <script src="mqtt.min.js"></script>

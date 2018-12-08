@@ -9,7 +9,9 @@ mqttClient.on('connect', () => {
     const status = document.querySelector('.connection-status');
 
     status.classList.add('connected');
-    status.innerHTML = "You are connected";
+    status.innerHTML = "You are connected to the server";
+
+    document.querySelector('.submit').disabled = false;
 
     mqttClient.subscribe('ping');
 });
@@ -24,7 +26,7 @@ mqttClient.on('message', (topic, message) => {
         pingTimeout = setTimeout(() => {
             status.classList.remove('connected');
             status.innerHTML = "The jumper is offline";
-        }, 15000);
+        }, 10000);
 
         status.classList.add('connected');
         status.innerHTML = "The jumper is online";
@@ -34,7 +36,9 @@ mqttClient.on('message', (topic, message) => {
 const noConnection = () => {
     const status = document.querySelector('.connection-status');
     status.classList.remove('connected');
-    status.innerHTML = "You are disconnected";
+    status.innerHTML = "You are disconnected from the server";
+
+    document.querySelector('.submit').disabled = true;
 };
 
 mqttClient.on('close', noConnection)
@@ -43,10 +47,12 @@ mqttClient.on('offline', noConnection);
 
 mqttClient.on('error', noConnection);
 
+document.querySelector('.onPause').value = 1000;
 document.querySelector('.onPause').addEventListener('input', function() {
     document.querySelector('.onPauseText').innerHTML = `${this.value/1000} seconds`;
 });
 
+document.querySelector('.offPause').value = 1000;
 document.querySelector('.offPause').addEventListener('input', function () {
     document.querySelector('.offPauseText').innerHTML = `${this.value/1000} seconds`;
 });
@@ -62,16 +68,39 @@ document.querySelectorAll('.state').forEach((el) => {
     });
 });
 
-
+let messageTimeout;
 document.querySelector('.jumper-form').addEventListener('submit', function (ev) {
     ev.preventDefault();
     const onPause = document.querySelector('.onPause').value;
     const offPause = document.querySelector('.offPause').value;
     const state = document.querySelector('.state:checked').value;
 
-    mqttClient.publish('status', JSON.stringify({
-        state,
-        onPause,
-        offPause
-    }));
+    const message = document.querySelector('.message');
+
+    message.innerHTML = 'Sending...'
+
+    mqttClient.publish(
+        'status',
+        JSON.stringify({
+            state,
+            onPause,
+            offPause
+        }),
+        {
+            qos: 1
+        },
+        (error) => {
+            clearTimeout(messageTimeout);
+
+            if (error) {
+                message.innerHTML = 'Error sending command.'
+            } else {
+                message.innerHTML = 'Sent!'
+            }
+
+            messageTimeout = setTimeout(() => {
+                message.innerHTML = '&nbsp;';
+            }, 5000);
+        }
+    );
 });
