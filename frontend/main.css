@@ -24,6 +24,10 @@ h1 {
     margin-bottom: 20px;
 }
 
+a {
+    color: #ffffff;
+}
+
 .sliders {
     display: none;
 }
@@ -95,4 +99,5 @@ h1 {
 
 .message {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
