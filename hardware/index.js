@@ -58,11 +58,13 @@ const mqtt = require('MQTT').create(config.mqtt.broker, {
   keep_alive: 10
 });
 
+let pingInterval;
+
 mqtt.on('connected', function () {
   console.log('Connected to MQTT');
 
   mqtt.subscribe('status');
-  setInterval(() => {
+  pingInterval = setInterval(() => {
     mqtt.publish('ping', 'ping');
   }, 5000);
 });
@@ -80,6 +82,7 @@ mqtt.on('publish', function (pub) {
 
 mqtt.on('disconnected', function () {
   console.log('MQTT disconnected, retrying');
+  clearInterval(pingInterval);
   setTimeout(function () {
     mqtt.connect();
   }, 2500);
@@ -105,6 +108,7 @@ wifi.stopAP();
 
 let ledInterval;
 let ledTimeout;
+let ledBrightness = 0;
 state.subscribe(() => {
   const currentState = state.getState();
 
@@ -123,7 +127,6 @@ state.subscribe(() => {
   } else if (currentState.ledStatus === 'OFF') {
     writeLed(0);
   } else if (currentState.ledStatus === 'FADE') {
-    let ledBrightness = 0;
     let fadeIn = true;
 
     const fadeLED = () => {
@@ -140,23 +143,21 @@ state.subscribe(() => {
         return;
       }
 
+      let newBrightness;
+
       if (fadeIn) {
-        ledBrightness += 0.01;
+        newBrightness = ledBrightness + 0.01;
       } else {
-        ledBrightness -= 0.01;
+        newBrightness = ledBrightness - 0.01;
       }
 
-      writeLed(ledBrightness);
+      writeLed(newBrightness);
     };
 
     ledInterval = setInterval(fadeLED, 10);
   } else if (currentState.ledStatus === 'FLASH') {
-    let ledOn = false;
-
-    writeLed(0);
-
     const ledFlash = () => {
-      ledOn = !ledOn;
+      let ledOn = ledBrightness > (config.maxBrightness / 2);
 
       writeLed(ledOn ? config.maxBrightness : 0);
 
@@ -169,8 +170,10 @@ state.subscribe(() => {
   }
 });
 
-function writeLed(ledBrightness) {
-  analogWrite(config.ledPin, ledBrightness, {
+function writeLed(newBrightness) {
+  ledBrightness = newBrightness;
+
+  analogWrite(config.ledPin, newBrightness, {
     freq: 100,
     forceSoft: true
   });
