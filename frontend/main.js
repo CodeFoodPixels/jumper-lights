@@ -69,7 +69,8 @@ document.querySelectorAll('.state').forEach((el) => {
 });
 
 let messageTimeout;
-document.querySelector('.jumper-form').addEventListener('submit', function (ev) {
+
+document.querySelector('.jumper-form').addEventListener('submit', throttle(function(ev) {
     ev.preventDefault();
     const onPause = document.querySelector('.onPause').value;
     const offPause = document.querySelector('.offPause').value;
@@ -103,4 +104,19 @@ document.querySelector('.jumper-form').addEventListener('submit', function (ev) 
             }, 5000);
         }
     );
-});
+}, 1000));
+
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function (ev) {
+        ev.preventDefault();
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit)
+        }
+    }
+}
