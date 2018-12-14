@@ -106,10 +106,25 @@ wifi.on('disconnected', () => {
 
 wifi.stopAP();
 
+function throttle(func, limit) {
+  let inThrottle;
+  return function (ev) {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      inThrottle = true;
+      setTimeout(() => {
+        inThrottle = false;
+        func.apply(context, args);
+      }, limit);
+    }
+  };
+}
+
 let ledInterval;
 let ledTimeout;
 let ledBrightness = 0;
-state.subscribe(() => {
+state.subscribe(throttle(() => {
   const currentState = state.getState();
 
   if (ledInterval) {
@@ -156,8 +171,10 @@ state.subscribe(() => {
 
     ledInterval = setInterval(fadeLED, 10);
   } else if (currentState.ledStatus === 'FLASH') {
+    writeLed(ledBrightness > (config.maxBrightness / 2) ? config.maxBrightness : 0);
+
     const ledFlash = () => {
-      let ledOn = ledBrightness > (config.maxBrightness / 2);
+      let ledOn = ledBrightness !== config.maxBrightness;
 
       writeLed(ledOn ? config.maxBrightness : 0);
 
@@ -168,7 +185,7 @@ state.subscribe(() => {
 
     ledTimeout = setTimeout(ledFlash, currentState.offPause);
   }
-});
+}, 1000));
 
 function writeLed(newBrightness) {
   ledBrightness = newBrightness;
